@@ -22,7 +22,14 @@ namespace FridgeBinge.Controllers
             {
                 return View("LoginSuccess", userModel);
             }
-            return View("LoginFailure", userModel);
+            //return View("LoginFailure", userModel);
+            return Redirect("/Login");
+        }
+
+        public IActionResult ShowAll()
+        {
+            UserDAO users = new();
+            return View("ShowAll", users.GetAllUsers());
         }
     }
 }

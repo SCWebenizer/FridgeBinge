@@ -42,5 +42,37 @@ namespace FridgeBinge.Services
 
             return success;
         }
+
+        // Read all
+        public List<UserModel> GetAllUsers()
+        {
+            List<UserModel> foundUsers = new();
+
+            string sqlStatement = "SELECT * FROM dbo.MortiiMatii";
+
+            using (SqlConnection connection = new(connectionString))
+            {
+                SqlCommand cmd = new(sqlStatement, connection);
+
+                try
+                {
+                    connection.Open();
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        foundUsers.Add(new UserModel { Id = (int)reader[0], Username = (string)reader[1], Password = (string)reader[2] });
+                    }
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return foundUsers;
+        }
     }
 }
